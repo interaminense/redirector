@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirector — Options</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <h1>Redirector</h1>
+      <div class="toolbar">
+        <button id="new-rule-btn" class="primary">+ New rule</button>
+        <button id="export-btn">Export</button>
+        <button id="import-btn">Import</button>
+        <input type="file" id="import-file" accept="application/json" hidden />
+      </div>
+    </header>
+
+    <main>
+      <div id="sync-error" class="sync-error hidden"></div>
+
+      <section id="rules-section">
+        <table class="rules-table" id="rules-table">
+          <thead>
+            <tr>
+              <th>On</th>
+              <th>Description</th>
+              <th>Pattern</th>
+              <th>Redirect to</th>
+              <th>Type</th>
+              <th>CORS</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="rules-tbody"></tbody>
+        </table>
+        <p id="empty-msg" class="empty hidden">
+          No rules yet. Click "+ New rule" to create one.
+        </p>
+      </section>
+    </main>
+
+    <dialog id="rule-dialog">
+      <form id="rule-form" method="dialog">
+        <h2 id="dialog-title">New rule</h2>
+
+        <label>
+          <span>Description</span>
+          <input type="text" name="description" placeholder="Short label (optional)" />
+        </label>
+
+        <label>
+          <span>Pattern type</span>
+          <select name="patternType">
+            <option value="wildcard">Wildcard (use * and $1, $2 ...)</option>
+            <option value="regex">Regex (use capture groups with $1, $2 ...)</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Pattern <small>source URL to match</small></span>
+          <input type="text" name="pattern" required placeholder="http://example.com/*" />
+        </label>
+
+        <label>
+          <span>Redirect to <small>use $1, $2 for captures</small></span>
+          <input type="text" name="redirectTo" required placeholder="https://example.com/$1" />
+        </label>
+
+        <fieldset class="resource-types">
+          <legend>Resource types</legend>
+          <div id="resource-types-container"></div>
+        </fieldset>
+
+        <label class="inline">
+          <input type="checkbox" name="allowCors" />
+          <span>Allow CORS <small>(adds Access-Control-Allow-* response headers)</small></span>
+        </label>
+
+        <label class="inline">
+          <input type="checkbox" name="enabled" checked />
+          <span>Enabled</span>
+        </label>
+
+        <p id="form-errors" class="errors"></p>
+
+        <div class="dialog-actions">
+          <button type="button" id="cancel-btn">Cancel</button>
+          <button type="submit" class="primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
